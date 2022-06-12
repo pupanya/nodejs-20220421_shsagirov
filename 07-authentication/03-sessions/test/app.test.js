@@ -11,7 +11,7 @@ const request = axios.create({
 const expect = require('chai').expect;
 
 describe('authentication/sessions', () => {
-  describe('сессии', function () {
+  describe('сессии', function() {
     let server;
     before((done) => {
       server = app.listen(3000, done);
@@ -51,7 +51,7 @@ describe('authentication/sessions', () => {
 
       expect(session, 'сессия должна быть создана').to.exist;
       expect(session.user.toString(), 'сессия должна быть создана для заданного пользователя')
-        .to.equal(u.id);
+          .to.equal(u.id);
     });
 
     it('авторизационный заголовок должен корректно обрабатываться', async () => {
