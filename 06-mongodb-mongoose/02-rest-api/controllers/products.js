@@ -1,3 +1,7 @@
+const Product = require('../models/Product');
+const mapProduct = require('../mappers/product');
+const ObjectId = require('mongoose').Types.ObjectId;
+
 module.exports.productsBySubcategory = async function productsBySubcategory(ctx, next) {
   const {subcategory} = ctx.query;
 
@@ -11,6 +15,21 @@ module.exports.productList = async function productList(ctx, next) {
 };
 
 module.exports.productById = async function productById(ctx, next) {
-  ctx.body = {};
+  try {
+    const id = ctx.request.params.id;
+    if (!ObjectId.isValid(id)) {
+      throw new Error();
+    }
+    const product = await Product.findById(id);
+    if (product) {
+      ctx.body = {product: mapProduct(product)};
+    } else {
+      ctx.status = 404;
+      ctx.body = 'Not Found';
+    }
+  } catch (e) {
+    ctx.status = 400;
+    ctx.body = e.message;
+  }
 };
 
