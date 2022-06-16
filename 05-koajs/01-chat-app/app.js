@@ -21,6 +21,10 @@ router.get('/subscribe', async (ctx, next) => {
 });
 
 router.post('/publish', async (ctx, next) => {
+  if (ctx.request.body.message === undefined || ctx.request.body.message.length < 1) {
+    return next();
+  }
+
   const message = ctx.request.body.message;
   for (const chat of chats) {
     chat(message);
